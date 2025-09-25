@@ -9,6 +9,30 @@ is_component_build = true
 target_os = "win"
 target_cpu = "x64"
 
+# Completely disable GPU service and all related components
+enable_gpu = false
+enable_gpu_rasterization = false
+enable_gpu_memory_buffer_video_frames = false
+enable_gpu_service_logging = false
+enable_gpu_service = false
+enable_gpu_memory_buffer_compositor_resources = false
+
+# Disable all GPU-related services
+enable_gpu_ipc_service = false
+enable_gpu_command_buffer = false
+enable_gpu_benchmarking = false
+enable_gpu_debugging = false
+enable_gpu_host_shader = false
+enable_gpu_rasterization = false
+enable_gpu_service = false
+enable_gpu_service_logging = false
+enable_gpu_service_tracing = false
+
+# Disable hardware acceleration entirely
+enable_hardware_acceleration = false
+enable_oop_rasterization = false
+enable_skia_renderer = false
+
 # Symbol levels for faster builds
 symbol_level = 1
 blink_symbol_level = 0
@@ -24,6 +48,23 @@ dawn_enable_metal = false
 dawn_enable_null = false
 dawn_enable_opengles = false
 dawn_enable_vulkan = false
+
+# Additional Dawn disabling flags
+dawn_use_built_dxc = false
+dawn_use_swiftshader = false
+dawn_use_wgpu = false
+dawn_skip_validation = true
+dawn_use_angle = false
+
+# Completely exclude Dawn from build
+exclude_dawn = true
+disable_dawn = true
+
+# Try to build without GPU service entirely
+exclude_gpu_service = true
+disable_gpu_service = true
+exclude_gpu = true
+disable_gpu = true
 
 # Additional Dawn disabling flags
 dawn_use_built_dxc = false
@@ -66,6 +107,39 @@ enable_gpu_rasterization = false
 enable_gpu_service = false
 enable_gpu_service_logging = false
 enable_gpu_service_tracing = false
+
+# Exclude GPU service entirely from build
+exclude_unwind_tables = true
+enable_gpu = false
+enable_gpu_rasterization = false
+enable_gpu_memory_buffer_video_frames = false
+enable_gpu_service_logging = false
+enable_gpu_service = false
+enable_gpu_memory_buffer_compositor_resources = false
+
+# Additional GPU disabling flags
+enable_gpu_channel_media_capture = false
+enable_gpu_client_logging = false
+enable_gpu_memory_buffer_video_frames = false
+enable_gpu_rasterization = false
+enable_gpu_service = false
+enable_gpu_service_logging = false
+enable_gpu_service_tracing = false
+
+# Disable GPU process entirely
+enable_gpu = false
+enable_gpu_rasterization = false
+enable_gpu_memory_buffer_video_frames = false
+enable_gpu_service_logging = false
+
+# Disable hardware acceleration
+enable_hardware_acceleration = false
+enable_oop_rasterization = false
+enable_skia_renderer = false
+
+# Disable graphics-related services
+enable_gpu_service = false
+enable_gpu_memory_buffer_compositor_resources = false
 
 # Windows-specific settings
 target_cpu = "x64"
