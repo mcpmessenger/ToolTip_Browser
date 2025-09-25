@@ -1,0 +1,361 @@
+# Chromium Fresh - Comprehensive .gitignore
+
+# =============================================================================
+# CHROMIUM BUILD FILES
+# =============================================================================
+
+# Build output directories
+out/
+build/
+gen/
+obj/
+*.obj
+*.o
+*.exe
+*.dll
+*.lib
+*.pdb
+*.ilk
+*.exp
+*.idb
+*.tlog
+*.log
+
+# Build artifacts
+*.ninja
+*.ninja_deps
+*.ninja_log
+build.ninja
+.ninja_log
+.ninja_deps
+
+# GN build files
+.gn/
+.gclient_entries
+.gclient_*
+.gn_deps
+.gn_deps_lock
+
+# =============================================================================
+# CHROMIUM SOURCE FILES (if copying from chromium/src)
+# =============================================================================
+
+# Chromium source directory (if we copy it)
+chromium/
+src/
+third_party/
+tools/
+build/
+base/
+chrome/
+content/
+net/
+url/
+v8/
+skia/
+dawn/
+angle/
+pdf/
+printing/
+media/
+mojo/
+services/
+ui/
+components/
+extensions/
+ash/
+lacros/
+ios/
+android/
+
+# =============================================================================
+# PREBUILT CHROMIUM BINARIES
+# =============================================================================
+
+# Prebuilt Chromium binaries (too large for git)
+prebuilt_chromium/
+*.exe
+*.dll
+*.pak
+*.bin
+*.dat
+*.json
+*.manifest
+*.pb
+*.crx
+*.zip
+*.tar.gz
+*.7z
+
+# Chrome user data (contains sensitive information)
+user_data/
+Default/
+Local State
+Preferences
+Secure Preferences
+History
+Cookies
+Login Data
+Web Data
+Network/
+TransportSecurity
+BrowsingTopicsState
+trusted_vault.pb
+
+# =============================================================================
+# DEVELOPMENT TOOLS
+# =============================================================================
+
+# Visual Studio
+.vs/
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# JetBrains IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# =============================================================================
+# SYSTEM FILES
+# =============================================================================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# =============================================================================
+# TEMPORARY FILES
+# =============================================================================
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.#*
+\#*#
+.#*
+
+# Log files
+*.log
+logs/
+log/
+
+# Cache files
+*.cache
+.cache/
+cache/
+
+# =============================================================================
+# SENSITIVE INFORMATION
+# =============================================================================
+
+# API Keys and Secrets
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+secrets.json
+config.json
+.env
+.env.local
+.env.production
+.env.staging
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+*.mdb
+*.accdb
+
+# =============================================================================
+# DOWNLOADS AND EXTERNAL FILES
+# =============================================================================
+
+# Downloads
+downloads/
+Downloads/
+*.download
+
+# External tools
+depot_tools/
+gn/
+ninja/
+clang/
+llvm/
+
+# =============================================================================
+# DOCUMENTATION BUILD FILES
+# =============================================================================
+
+# Generated documentation
+docs/_build/
+docs/build/
+site/
+_site/
+
+# =============================================================================
+# TESTING
+# =============================================================================
+
+# Test outputs
+test_results/
+coverage/
+*.coverage
+.coverage
+.pytest_cache/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# =============================================================================
+# BACKUP FILES
+# =============================================================================
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+*.rej
+*~
+
+# =============================================================================
+# LARGE FILES
+# =============================================================================
+
+# Large binary files
+*.iso
+*.img
+*.dmg
+*.pkg
+*.deb
+*.rpm
+*.apk
+*.ipa
+
+# Media files
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.flv
+*.webm
+*.mp3
+*.wav
+*.flac
+*.aac
+*.ogg
+
+# Archive files
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.bz2
+*.xz
+
+# Specific large files to exclude
+"Dark Mode and Easy Build Solution for Tooltip Chromium.zip"
+
+# =============================================================================
+# PROJECT SPECIFIC
+# =============================================================================
+
+# Custom Chrome builds
+custom_chrome/
+chrome_build/
+chromium_build/
+
+# Tooltip companion specific
+tooltip_data/
+screenshots/
+ai_cache/
+voice_data/
+
+# =============================================================================
+# GIT SPECIFIC
+# =============================================================================
+
+# Git files
+.git/
+.gitattributes
+.gitmodules
+
+# =============================================================================
+# NOTES
+# =============================================================================
+
+# This .gitignore is designed for a Chromium fork project
+# It excludes:
+# 1. Large build artifacts and binaries
+# 2. Sensitive user data and preferences
+# 3. Temporary and cache files
+# 4. Development tool configurations
+# 5. System-specific files
+# 6. Large media and archive files
+#
+# Keep in repository:
+# - Source code (.h, .cc, .cpp files)
+# - Build configuration files (BUILD.gn, .gni files)
+# - Documentation (.md files)
+# - Scripts (.ps1, .bat, .sh files)
+# - Small configuration files

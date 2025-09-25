@@ -165,3 +165,4 @@
 ---
 
 **Remember:** The goal is to get a working build environment so we can continue developing the tooltip companion functionality. Focus on practical solutions that will get us moving forward quickly.
+

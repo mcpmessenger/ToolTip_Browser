@@ -1,0 +1,93 @@
+/* Tooltip Dark Mode - Clean Grey Theme */
+/* This CSS will be injected into all web pages */
+
+* {
+  background-color: #2d2d2d !important;
+  color: #e0e0e0 !important;
+}
+
+/* Text elements */
+p, span, div, h1, h2, h3, h4, h5, h6, a, li, td, th {
+  color: #e0e0e0 !important;
+}
+
+/* Links */
+a {
+  color: #4a9eff !important;
+}
+
+a:visited {
+  color: #8a6bb8 !important;
+}
+
+a:hover {
+  color: #6bb6ff !important;
+}
+
+/* Form elements */
+input, textarea, select, button {
+  background-color: #3d3d3d !important;
+  color: #e0e0e0 !important;
+  border: 1px solid #555 !important;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: #4a9eff !important;
+  outline: none !important;
+}
+
+/* Buttons */
+button {
+  background-color: #404040 !important;
+  border: 1px solid #555 !important;
+}
+
+button:hover {
+  background-color: #4a4a4a !important;
+}
+
+button:active {
+  background-color: #353535 !important;
+}
+
+/* Tables */
+table {
+  background-color: #2d2d2d !important;
+}
+
+th {
+  background-color: #3d3d3d !important;
+}
+
+tr:nth-child(even) {
+  background-color: #333 !important;
+}
+
+/* Code blocks */
+code, pre {
+  background-color: #1e1e1e !important;
+  color: #d4d4d4 !important;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  background-color: #2d2d2d !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #555 !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #666 !important;
+}
+
+/* Images - reduce brightness slightly */
+img {
+  opacity: 0.9 !important;
+}
+
+/* Remove any blue/purple tints from existing styles */
+* {
+  filter: none !important;
+}
