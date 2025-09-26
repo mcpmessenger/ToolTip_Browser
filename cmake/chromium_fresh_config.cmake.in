@@ -1,0 +1,48 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+# Find dependencies
+find_dependency(Threads REQUIRED)
+find_dependency(SQLite3 REQUIRED)
+
+# Include NaviGrab
+find_dependency(nlohmann_json REQUIRED)
+find_dependency(spdlog REQUIRED)
+
+# Include the targets file
+include("${CMAKE_CURRENT_LIST_DIR}/chromium_fresh_targets.cmake")
+
+# Set package properties
+set(CHROMIUM_FRESH_VERSION @PROJECT_VERSION@)
+set(CHROMIUM_FRESH_VERSION_MAJOR @PROJECT_VERSION_MAJOR@)
+set(CHROMIUM_FRESH_VERSION_MINOR @PROJECT_VERSION_MINOR@)
+set(CHROMIUM_FRESH_VERSION_PATCH @PROJECT_VERSION_PATCH@)
+
+# Check if components are available
+check_required_components(chromium_fresh_unified)
+
+# Provide usage information
+if(NOT TARGET chromium_fresh::chromium_fresh_unified)
+    message(FATAL_ERROR "chromium_fresh::chromium_fresh_unified target not found")
+endif()
+
+# Set usage requirements
+get_target_property(CHROMIUM_FRESH_INCLUDE_DIRS chromium_fresh::chromium_fresh_unified INTERFACE_INCLUDE_DIRECTORIES)
+get_target_property(CHROMIUM_FRESH_LIBRARIES chromium_fresh::chromium_fresh_unified INTERFACE_LINK_LIBRARIES)
+get_target_property(CHROMIUM_FRESH_COMPILE_DEFINITIONS chromium_fresh::chromium_fresh_unified INTERFACE_COMPILE_DEFINITIONS)
+get_target_property(CHROMIUM_FRESH_COMPILE_OPTIONS chromium_fresh::chromium_fresh_unified INTERFACE_COMPILE_OPTIONS)
+
+# Provide compatibility variables
+set(CHROMIUM_FRESH_FOUND TRUE)
+set(CHROMIUM_FRESH_LIBRARIES ${CHROMIUM_FRESH_LIBRARIES})
+set(CHROMIUM_FRESH_INCLUDE_DIRS ${CHROMIUM_FRESH_INCLUDE_DIRS})
+
+# Print configuration info
+if(NOT chromium_fresh_FIND_QUIETLY)
+    message(STATUS "Found ChromiumFresh: ${CHROMIUM_FRESH_VERSION}")
+    message(STATUS "  Include directories: ${CHROMIUM_FRESH_INCLUDE_DIRS}")
+    message(STATUS "  Libraries: ${CHROMIUM_FRESH_LIBRARIES}")
+    message(STATUS "  Compile definitions: ${CHROMIUM_FRESH_COMPILE_DEFINITIONS}")
+endif()
+

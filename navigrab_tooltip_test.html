@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NaviGrab Tooltip Test - Screenshot Previews</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .section h2 {
+            color: #ffd700;
+            margin-top: 0;
+        }
+        
+        /* Tooltip Styles */
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 2px solid #4ecdc4;
+            z-index: 1000;
+            max-width: 300px;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+            display: none;
+            animation: tooltipFadeIn 0.3s ease;
+        }
+        
+        @keyframes tooltipFadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tooltip-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #4ecdc4;
+        }
+        
+        .tooltip-icon {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+        
+        .tooltip-title {
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+        
+        .tooltip-screenshot {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            border-radius: 5px;
+            margin: 8px 0;
+            border: 1px solid #4ecdc4;
+        }
+        
+        .tooltip-info {
+            font-size: 12px;
+            color: #ccc;
+            margin-top: 8px;
+        }
+        
+        .tooltip-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 5px;
+        }
+        
+        .tooltip-btn {
+            background: #4ecdc4;
+            color: #000;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .tooltip-btn:hover {
+            background: #44a08d;
+        }
+        
+        /* Interactive Elements */
+        .interactive-element {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .interactive-element:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 8px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .primary-btn {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+        }
+        
+        .danger-btn {
+            background: linear-gradient(45deg, #ff4757, #c44569);
+        }
+        
+        .success-btn {
+            background: linear-gradient(45deg, #2ed573, #1e90ff);
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 14px;
+        }
+        
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+            padding: 8px 16px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 20px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        a:hover {
+            background: rgba(255, 215, 0, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .test-results {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .test-results h3 {
+            color: #4ecdc4;
+            margin-top: 0;
+        }
+        
+        .interaction-log {
+            max-height: 200px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 NaviGrab Tooltip Test - Screenshot Previews</h1>
+        <p style="text-align: center; font-size: 18px; margin-bottom: 30px;">
+            Hover over elements to see NaviGrab tooltips with screenshot previews!
+        </p>
+
+        <!-- Buttons Section -->
+        <div class="section">
+            <h2>🔘 Interactive Buttons (Hover for Tooltips)</h2>
+            <div class="grid">
+                <button class="interactive-element primary-btn" 
+                        data-tooltip="primary-button"
+                        onmouseenter="showTooltip(event, 'primary-button', 'Primary Button', 'This is a primary action button that performs main functions.')"
+                        onmouseleave="hideTooltip()">
+                    Primary Button
+                </button>
+                <button class="interactive-element danger-btn" 
+                        data-tooltip="danger-button"
+                        onmouseenter="showTooltip(event, 'danger-button', 'Danger Button', 'This is a danger button that performs destructive actions.')"
+                        onmouseleave="hideTooltip()">
+                    Danger Button
+                </button>
+                <button class="interactive-element success-btn" 
+                        data-tooltip="success-button"
+                        onmouseenter="showTooltip(event, 'success-button', 'Success Button', 'This is a success button that confirms positive actions.')"
+                        onmouseleave="hideTooltip()">
+                    Success Button
+                </button>
+                <button class="interactive-element" 
+                        data-tooltip="toggle-button"
+                        onmouseenter="showTooltip(event, 'toggle-button', 'Toggle Button', 'This button toggles content visibility on and off.')"
+                        onmouseleave="hideTooltip()">
+                    Toggle Content
+                </button>
+            </div>
+        </div>
+
+        <!-- Links Section -->
+        <div class="section">
+            <h2>🔗 Navigation Links (Hover for Tooltips)</h2>
+            <div style="text-align: center;">
+                <a href="https://www.google.com" target="_blank" 
+                   class="interactive-element"
+                   data-tooltip="google-link"
+                   onmouseenter="showTooltip(event, 'google-link', 'Google Link', 'External link to Google search engine.')"
+                   onmouseleave="hideTooltip()">Google</a>
+                <a href="https://www.github.com" target="_blank" 
+                   class="interactive-element"
+                   data-tooltip="github-link"
+                   onmouseenter="showTooltip(event, 'github-link', 'GitHub Link', 'External link to GitHub code repository.')"
+                   onmouseleave="hideTooltip()">GitHub</a>
+                <a href="https://www.stackoverflow.com" target="_blank" 
+                   class="interactive-element"
+                   data-tooltip="stackoverflow-link"
+                   onmouseenter="showTooltip(event, 'stackoverflow-link', 'Stack Overflow Link', 'External link to Stack Overflow Q&A site.')"
+                   onmouseleave="hideTooltip()">Stack Overflow</a>
+            </div>
+        </div>
+
+        <!-- Forms Section -->
+        <div class="section">
+            <h2>📝 Form Elements (Hover for Tooltips)</h2>
+            <form id="test-form">
+                <div class="grid">
+                    <div>
+                        <label>Text Input:</label>
+                        <input type="text" 
+                               class="interactive-element"
+                               data-tooltip="text-input"
+                               onmouseenter="showTooltip(event, 'text-input', 'Text Input Field', 'Enter any text in this input field.')"
+                               onmouseleave="hideTooltip()"
+                               placeholder="Enter some text..." />
+                    </div>
+                    <div>
+                        <label>Email Input:</label>
+                        <input type="email" 
+                               class="interactive-element"
+                               data-tooltip="email-input"
+                               onmouseenter="showTooltip(event, 'email-input', 'Email Input Field', 'Enter a valid email address in this field.')"
+                               onmouseleave="hideTooltip()"
+                               placeholder="Enter your email..." />
+                    </div>
+                    <div>
+                        <label>Select Dropdown:</label>
+                        <select class="interactive-element"
+                                data-tooltip="select-input"
+                                onmouseenter="showTooltip(event, 'select-input', 'Select Dropdown', 'Choose an option from this dropdown menu.')"
+                                onmouseleave="hideTooltip()">
+                            <option value="">Choose an option...</option>
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                            <option value="option3">Option 3</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Images Section -->
+        <div class="section">
+            <h2>🖼️ Clickable Images (Hover for Tooltips)</h2>
+            <div class="grid">
+                <div class="card">
+                    <img src="https://via.placeholder.com/200x150/4ecdc4/ffffff?text=Image+1" 
+                         alt="Test Image 1" 
+                         class="interactive-element"
+                         data-tooltip="image-1"
+                         onmouseenter="showTooltip(event, 'image-1', 'Clickable Image 1', 'This is a clickable image with teal background.')"
+                         onmouseleave="hideTooltip()"
+                         style="width: 100%; border-radius: 8px; cursor: pointer;" />
+                    <p>Clickable Image 1</p>
+                </div>
+                <div class="card">
+                    <img src="https://via.placeholder.com/200x150/ff6b6b/ffffff?text=Image+2" 
+                         alt="Test Image 2" 
+                         class="interactive-element"
+                         data-tooltip="image-2"
+                         onmouseenter="showTooltip(event, 'image-2', 'Clickable Image 2', 'This is a clickable image with red background.')"
+                         onmouseleave="hideTooltip()"
+                         style="width: 100%; border-radius: 8px; cursor: pointer;" />
+                    <p>Clickable Image 2</p>
+                </div>
+                <div class="card">
+                    <img src="https://via.placeholder.com/200x150/2ed573/ffffff?text=Image+3" 
+                         alt="Test Image 3" 
+                         class="interactive-element"
+                         data-tooltip="image-3"
+                         onmouseenter="showTooltip(event, 'image-3', 'Clickable Image 3', 'This is a clickable image with green background.')"
+                         onmouseleave="hideTooltip()"
+                         style="width: 100%; border-radius: 8px; cursor: pointer;" />
+                    <p>Clickable Image 3</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Results Section -->
+        <div class="section test-results">
+            <h3>📊 NaviGrab Tooltip Test Results</h3>
+            <p>Hover over any element above to see the NaviGrab tooltip with screenshot preview!</p>
+            <div class="interaction-log" id="interaction-log">
+                <div>Page loaded - hover over elements to see tooltips!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltip Container -->
+    <div id="tooltip" class="tooltip"></div>
+
+    <script>
+        let interactionCount = 0;
+        
+        function showTooltip(event, elementId, title, description) {
+            const tooltip = document.getElementById('tooltip');
+            const rect = event.target.getBoundingClientRect();
+            
+            // Generate mock screenshot based on element type
+            const screenshotUrl = generateMockScreenshot(elementId, event.target);
+            
+            tooltip.innerHTML = `
+                <div class="tooltip-header">
+                    <span class="tooltip-icon">🔍</span>
+                    <span class="tooltip-title">${title}</span>
+                </div>
+                <img src="${screenshotUrl}" alt="Element Screenshot" class="tooltip-screenshot">
+                <div class="tooltip-info">
+                    <strong>Element ID:</strong> ${elementId}<br>
+                    <strong>Type:</strong> ${event.target.tagName.toLowerCase()}<br>
+                    <strong>Description:</strong> ${description}
+                </div>
+                <div class="tooltip-actions">
+                    <button class="tooltip-btn" onclick="clickElement('${elementId}')">Click</button>
+                    <button class="tooltip-btn" onclick="screenshotElement('${elementId}')">Screenshot</button>
+                    <button class="tooltip-btn" onclick="analyzeElement('${elementId}')">Analyze</button>
+                </div>
+            `;
+            
+            // Position tooltip
+            const tooltipRect = tooltip.getBoundingClientRect();
+            let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+            let top = rect.top - tooltipRect.height - 10;
+            
+            // Adjust if tooltip goes off screen
+            if (left < 10) left = 10;
+            if (left + tooltipRect.width > window.innerWidth - 10) {
+                left = window.innerWidth - tooltipRect.width - 10;
+            }
+            if (top < 10) {
+                top = rect.bottom + 10;
+            }
+            
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+            tooltip.style.display = 'block';
+            
+            logAction(`Tooltip shown for: ${title}`);
+        }
+        
+        function hideTooltip() {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.style.display = 'none';
+        }
+        
+        function generateMockScreenshot(elementId, element) {
+            // Create a data URL for a simple colored rectangle
+            const colors = {
+                'primary-button': '#4ecdc4',
+                'danger-button': '#ff4757',
+                'success-button': '#2ed573',
+                'toggle-button': '#ff6b6b',
+                'google-link': '#4285f4',
+                'github-link': '#333333',
+                'stackoverflow-link': '#f48024',
+                'text-input': '#ffffff',
+                'email-input': '#ffffff',
+                'select-input': '#ffffff',
+                'image-1': '#4ecdc4',
+                'image-2': '#ff6b6b',
+                'image-3': '#2ed573'
+            };
+            
+            const color = colors[elementId] || '#666666';
+            const text = element.textContent || element.placeholder || elementId;
+            
+            // Create a simple canvas-based screenshot
+            const canvas = document.createElement('canvas');
+            canvas.width = 250;
+            canvas.height = 150;
+            const ctx = canvas.getContext('2d');
+            
+            // Draw background
+            ctx.fillStyle = color;
+            ctx.fillRect(0, 0, 250, 150);
+            
+            // Draw border
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(1, 1, 248, 148);
+            
+            // Draw text
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(text, 125, 75);
+            
+            // Draw element type
+            ctx.font = '12px Arial';
+            ctx.fillText(element.tagName.toLowerCase(), 125, 100);
+            
+            return canvas.toDataURL();
+        }
+        
+        function clickElement(elementId) {
+            logAction(`Clicked element: ${elementId}`);
+            // Simulate click action
+            const element = document.querySelector(`[data-tooltip="${elementId}"]`);
+            if (element) {
+                element.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    element.style.transform = '';
+                }, 150);
+            }
+        }
+        
+        function screenshotElement(elementId) {
+            logAction(`Screenshot taken of: ${elementId}`);
+            // Simulate screenshot action
+            alert(`Screenshot saved for element: ${elementId}`);
+        }
+        
+        function analyzeElement(elementId) {
+            logAction(`Analyzing element: ${elementId}`);
+            // Simulate AI analysis
+            const analysis = `AI Analysis: This ${elementId} element appears to be interactive and ready for automation. It has proper accessibility attributes and follows web standards.`;
+            alert(analysis);
+        }
+        
+        function logAction(message) {
+            interactionCount++;
+            const log = document.getElementById('interaction-log');
+            const div = document.createElement('div');
+            div.textContent = `${interactionCount}. ${new Date().toLocaleTimeString()}: ${message}`;
+            log.appendChild(div);
+            log.scrollTop = log.scrollHeight;
+        }
+        
+        // Initialize
+        logAction('NaviGrab tooltip test page ready - hover over elements!');
+    </script>
+</body>
+</html>

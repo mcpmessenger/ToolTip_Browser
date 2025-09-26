@@ -1,0 +1,21 @@
+cmake_minimum_required(VERSION 3.20)
+project(NaviGrabTest)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Include directories
+include_directories(${CMAKE_SOURCE_DIR}/src)
+
+# Find required libraries
+find_library(NAVIGRAB_CORE navigrab_core PATHS ${CMAKE_SOURCE_DIR}/build/Release)
+find_library(SPDLOG_LIB spdlog PATHS ${CMAKE_SOURCE_DIR}/build/_deps/spdlog-build/Release)
+
+# Create test executable
+add_executable(test_navigrab test_navigrab_simple.cpp)
+
+# Link libraries
+target_link_libraries(test_navigrab 
+    ${NAVIGRAB_CORE}
+    ${SPDLOG_LIB}
+)

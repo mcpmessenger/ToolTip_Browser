@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NaviGrab Working Screenshots</title>
+    <!-- html2canvas for real full page screenshots -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .section h2 {
+            color: #ffd700;
+            margin-top: 0;
+        }
+        
+        /* Tooltip Styles */
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 2px solid #4ecdc4;
+            z-index: 1000;
+            max-width: 350px;
+            font-size: 14px;
+            display: none;
+            animation: tooltipFadeIn 0.3s ease;
+        }
+        
+        @keyframes tooltipFadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tooltip-screenshot {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 5px;
+            margin: 8px 0;
+            border: 2px solid #4ecdc4;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .interactive-element {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .interactive-element:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 8px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .primary-btn {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+        }
+        
+        .danger-btn {
+            background: linear-gradient(45deg, #ff4757, #c44569);
+        }
+        
+        .success-btn {
+            background: linear-gradient(45deg, #2ed573, #1e90ff);
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 14px;
+        }
+        
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .test-results {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .interaction-log {
+            max-height: 200px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        
+        .screenshot-display {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        .screenshot-display img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #4ecdc4;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 NaviGrab Working Screenshots</h1>
+        <p style="text-align: center; font-size: 18px; margin-bottom: 30px;">
+            Click buttons to capture screenshots, then hover to see them in tooltips!
+        </p>
+
+        <!-- Action Buttons -->
+        <div class="section">
+            <h2>🎯 Action Buttons (Click to Test)</h2>
+            <div style="text-align: center;">
+                <button class="interactive-element primary-btn" 
+                        data-tooltip="action-btn-1"
+                        onmouseenter="showTooltip(event, 'action-btn-1', 'Action Button 1', 'This button performs action 1 when clicked.')"
+                        onmouseleave="hideTooltip()"
+                        onclick="performAction('action-1', this)">
+                    🎯 Action 1
+                </button>
+                <button class="interactive-element danger-btn" 
+                        data-tooltip="action-btn-2"
+                        onmouseenter="showTooltip(event, 'action-btn-2', 'Action Button 2', 'This button performs action 2 when clicked.')"
+                        onmouseleave="hideTooltip()"
+                        onclick="performAction('action-2', this)">
+                    ⚡ Action 2
+                </button>
+                <button class="interactive-element success-btn" 
+                        data-tooltip="action-btn-3"
+                        onmouseenter="showTooltip(event, 'action-btn-3', 'Action Button 3', 'This button performs action 3 when clicked.')"
+                        onmouseleave="hideTooltip()"
+                        onclick="performAction('action-3', this)">
+                    🚀 Action 3
+                </button>
+            </div>
+        </div>
+
+        <!-- Form Elements -->
+        <div class="section">
+            <h2>📝 Form Elements (Hover for Screenshots)</h2>
+            <div class="grid">
+                <div>
+                    <label>Text Input:</label>
+                    <input type="text" 
+                           class="interactive-element"
+                           data-tooltip="text-input"
+                           onmouseenter="showTooltip(event, 'text-input', 'Text Input Field', 'Enter any text in this input field.')"
+                           onmouseleave="hideTooltip()"
+                           placeholder="Enter some text..." />
+                </div>
+                <div>
+                    <label>Email Input:</label>
+                    <input type="email" 
+                           class="interactive-element"
+                           data-tooltip="email-input"
+                           onmouseenter="showTooltip(event, 'email-input', 'Email Input Field', 'Enter a valid email address.')"
+                           onmouseleave="hideTooltip()"
+                           placeholder="Enter your email..." />
+                </div>
+                <div>
+                    <label>Select Dropdown:</label>
+                    <select class="interactive-element"
+                            data-tooltip="select-input"
+                            onmouseenter="showTooltip(event, 'select-input', 'Select Dropdown', 'Choose an option from this dropdown.')"
+                            onmouseleave="hideTooltip()">
+                        <option value="">Choose an option...</option>
+                        <option value="option1">Option 1</option>
+                        <option value="option2">Option 2</option>
+                        <option value="option3">Option 3</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screenshot Controls -->
+        <div class="section">
+            <h2>📸 Screenshot Controls</h2>
+            <div style="text-align: center;">
+                <button class="interactive-element primary-btn" 
+                        data-tooltip="capture-btn"
+                        onmouseenter="showTooltip(event, 'capture-btn', 'Capture Screenshots', 'Click to capture screenshots of all elements.')"
+                        onmouseleave="hideTooltip()"
+                        onclick="captureAllScreenshots()">
+                    📸 Capture All Screenshots
+                </button>
+                <button class="interactive-element success-btn" 
+                        data-tooltip="show-btn"
+                        onmouseenter="showTooltip(event, 'show-btn', 'Show Screenshots', 'Click to display all captured screenshots.')"
+                        onmouseleave="hideTooltip()"
+                        onclick="showAllScreenshots()">
+                    🖼️ Show All Screenshots
+                </button>
+                <button class="interactive-element danger-btn" 
+                        data-tooltip="clear-btn"
+                        onmouseenter="showTooltip(event, 'clear-btn', 'Clear Screenshots', 'Click to clear all stored screenshots.')"
+                        onmouseleave="hideTooltip()"
+                        onclick="clearAllScreenshots()">
+                    🗑️ Clear Screenshots
+                </button>
+            </div>
+        </div>
+
+        <!-- Screenshot Display Area -->
+        <div class="section" id="screenshot-display" style="display: none;">
+            <h2>🖼️ Captured Screenshots</h2>
+            <div id="screenshots-container"></div>
+        </div>
+
+        <!-- Test Results -->
+        <div class="section test-results">
+            <h3>📊 Test Results</h3>
+            <div class="interaction-log" id="interaction-log">
+                <div>Page loaded - click buttons and hover over elements!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltip Container -->
+    <div id="tooltip" class="tooltip"></div>
+
+    <script>
+        let interactionCount = 0;
+        let screenshotCache = {};
+        let actionCount = 0;
+        
+        function showTooltip(event, elementId, title, description) {
+            const tooltip = document.getElementById('tooltip');
+            const rect = event.target.getBoundingClientRect();
+            
+            // Get screenshot if available
+            const screenshot = getScreenshot(elementId, event.target);
+            
+            tooltip.innerHTML = `
+                <div style="font-weight: bold; color: #4ecdc4; margin-bottom: 8px; display: flex; align-items: center;">
+                    <span style="margin-right: 8px;">📸</span>
+                    <span>${title}</span>
+                </div>
+                ${screenshot ? `<img src="${screenshot}" alt="Screenshot" class="tooltip-screenshot">` : '<div style="color: #ff6b6b; font-size: 12px;">No screenshot available - click Capture All Screenshots first</div>'}
+                <div style="font-size: 12px; color: #ccc; margin-top: 8px;">
+                    <strong>Element ID:</strong> ${elementId}<br>
+                    <strong>Type:</strong> ${event.target.tagName.toLowerCase()}<br>
+                    <strong>Description:</strong> ${description}
+                </div>
+            `;
+            
+            // Position tooltip
+            const tooltipRect = tooltip.getBoundingClientRect();
+            let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+            let top = rect.top - tooltipRect.height - 10;
+            
+            if (left < 10) left = 10;
+            if (left + tooltipRect.width > window.innerWidth - 10) {
+                left = window.innerWidth - tooltipRect.width - 10;
+            }
+            if (top < 10) {
+                top = rect.bottom + 10;
+            }
+            
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+            tooltip.style.display = 'block';
+            
+            log(`Tooltip shown for: ${title}${screenshot ? ' (with screenshot)' : ' (no screenshot)'}`);
+        }
+        
+        function hideTooltip() {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.style.display = 'none';
+        }
+        
+        function getScreenshot(elementId, element) {
+            // Check cache first
+            if (screenshotCache[elementId]) {
+                return screenshotCache[elementId];
+            }
+            
+            // Check localStorage
+            const stored = localStorage.getItem(`screenshot_${elementId}`);
+            if (stored) {
+                screenshotCache[elementId] = stored;
+                return stored;
+            }
+            
+            return null; // No screenshot available
+        }
+        
+        async function captureElementScreenshot(element) {
+            try {
+                // For full page screenshots, we'll use html2canvas if available
+                if (typeof html2canvas !== 'undefined') {
+                    return await captureFullPageScreenshot(element);
+                }
+                
+                // Fallback: Create a full page representation
+                return captureFullPageFallback(element);
+            } catch (error) {
+                console.error('Screenshot capture failed:', error);
+                return null;
+            }
+        }
+        
+        async function captureFullPageScreenshot(element) {
+            try {
+                // Use html2canvas to capture the full page
+                const canvas = await html2canvas(document.body, {
+                    scale: 0.5, // Lower scale for performance
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: null,
+                    width: window.innerWidth,
+                    height: document.body.scrollHeight
+                });
+                
+                // Highlight the specific element on the screenshot
+                const ctx = canvas.getContext('2d');
+                const rect = element.getBoundingClientRect();
+                
+                // Draw highlight box around the element
+                ctx.strokeStyle = '#4ecdc4';
+                ctx.lineWidth = 4;
+                ctx.strokeRect(rect.left * 0.5, rect.top * 0.5, rect.width * 0.5, rect.height * 0.5);
+                
+                // Draw element label
+                ctx.fillStyle = '#4ecdc4';
+                ctx.font = 'bold 16px Arial';
+                ctx.fillText(element.tagName.toLowerCase(), rect.left * 0.5 + 5, rect.top * 0.5 - 5);
+                
+                return canvas.toDataURL('image/png');
+            } catch (error) {
+                console.error('html2canvas failed:', error);
+                return captureFullPageFallback(element);
+            }
+        }
+        
+        function captureFullPageFallback(element) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas to full page size
+            const pageWidth = window.innerWidth;
+            const pageHeight = document.body.scrollHeight;
+            const scale = 0.5; // Lower scale for full page
+            canvas.width = pageWidth * scale;
+            canvas.height = pageHeight * scale;
+            ctx.scale(scale, scale);
+            
+            // Draw page background
+            ctx.fillStyle = '#667eea';
+            ctx.fillRect(0, 0, pageWidth, pageHeight);
+            
+            // Draw gradient background
+            const gradient = ctx.createLinearGradient(0, 0, 0, pageHeight);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, pageWidth, pageHeight);
+            
+            // Draw container
+            const containerX = (pageWidth - 1200) / 2;
+            const containerY = 20;
+            const containerWidth = 1200;
+            const containerHeight = pageHeight - 40;
+            
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.fillRect(containerX, containerY, containerWidth, containerHeight);
+            
+            // Draw title
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 32px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('NaviGrab Working Screenshots', pageWidth / 2, 80);
+            
+            // Draw element highlight
+            const rect = element.getBoundingClientRect();
+            const elementX = rect.left;
+            const elementY = rect.top;
+            const elementWidth = rect.width;
+            const elementHeight = rect.height;
+            
+            // Highlight the element
+            ctx.fillStyle = 'rgba(78, 205, 196, 0.3)';
+            ctx.fillRect(elementX, elementY, elementWidth, elementHeight);
+            
+            // Draw element border
+            ctx.strokeStyle = '#4ecdc4';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(elementX, elementY, elementWidth, elementHeight);
+            
+            // Draw element content
+            const text = element.textContent || element.placeholder || element.value || '';
+            if (text) {
+                ctx.fillStyle = '#000000';
+                ctx.font = '16px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(text, elementX + elementWidth / 2, elementY + elementHeight / 2);
+            }
+            
+            // Draw element type
+            ctx.fillStyle = '#4ecdc4';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'left';
+            ctx.fillText(element.tagName.toLowerCase(), elementX + 5, elementY + elementHeight - 5);
+            
+            // Draw "FULL PAGE SCREENSHOT" label
+            ctx.fillStyle = '#ffd700';
+            ctx.font = 'bold 14px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('FULL PAGE SCREENSHOT', pageWidth / 2, pageHeight - 20);
+            
+            return canvas.toDataURL('image/png');
+        }
+        
+        function performAction(actionId, element) {
+            actionCount++;
+            log(`Action ${actionId} performed! (Action #${actionCount})`);
+            
+            // Visual feedback
+            element.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                element.style.transform = '';
+            }, 150);
+            
+            // Update button text to show it was clicked
+            const originalText = element.textContent;
+            element.textContent = `✅ ${originalText} (Clicked!)`;
+            setTimeout(() => {
+                element.textContent = originalText;
+            }, 2000);
+        }
+        
+        async function captureAllScreenshots() {
+            const elements = document.querySelectorAll('.interactive-element');
+            let captured = 0;
+            let failed = 0;
+            
+            log(`Starting to capture ${elements.length} full page screenshots...`);
+            
+            for (let i = 0; i < elements.length; i++) {
+                const element = elements[i];
+                try {
+                    const elementId = element.getAttribute('data-tooltip') || `element-${i}`;
+                    log(`Capturing full page screenshot for: ${elementId}...`);
+                    
+                    const screenshot = await captureElementScreenshot(element);
+                    
+                    if (screenshot) {
+                        // Store in cache and localStorage
+                        screenshotCache[elementId] = screenshot;
+                        localStorage.setItem(`screenshot_${elementId}`, screenshot);
+                        captured++;
+                        log(`✅ Captured full page screenshot for: ${elementId} (${Math.round(screenshot.length / 1024 * 100) / 100} KB)`);
+                    } else {
+                        failed++;
+                        log(`❌ Failed to capture: ${elementId}`);
+                    }
+                } catch (error) {
+                    failed++;
+                    log(`❌ Error capturing element: ${error.message}`);
+                }
+            }
+            
+            log(`Full page screenshot capture complete: ${captured} successful, ${failed} failed`);
+            alert(`Full page screenshots captured!\n✅ Success: ${captured}\n❌ Failed: ${failed}\n\nNow hover over elements to see full page screenshots in tooltips!`);
+        }
+        
+        function showAllScreenshots() {
+            const container = document.getElementById('screenshots-container');
+            const display = document.getElementById('screenshot-display');
+            
+            container.innerHTML = '';
+            
+            let screenshotCount = 0;
+            for (const [elementId, screenshot] of Object.entries(screenshotCache)) {
+                if (screenshot) {
+                    const div = document.createElement('div');
+                    div.className = 'screenshot-display';
+                    div.innerHTML = `
+                        <h4>📸 ${elementId}</h4>
+                        <img src="${screenshot}" alt="Screenshot of ${elementId}" style="max-width: 200px; height: auto; border: 2px solid #4ecdc4; border-radius: 5px;">
+                        <p><strong>Size:</strong> ${Math.round(screenshot.length / 1024 * 100) / 100} KB</p>
+                        <p><strong>Format:</strong> PNG Base64</p>
+                        <button onclick="downloadScreenshot('${elementId}')" style="background: #4ecdc4; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 12px;">Download PNG</button>
+                    `;
+                    container.appendChild(div);
+                    screenshotCount++;
+                }
+            }
+            
+            if (screenshotCount > 0) {
+                display.style.display = 'block';
+                log(`🖼️ Displayed ${screenshotCount} screenshots - scroll down to see them all!`);
+            } else {
+                alert('No screenshots available! Click "Capture All Screenshots" first.');
+            }
+        }
+        
+        function downloadScreenshot(elementId) {
+            const screenshot = screenshotCache[elementId];
+            if (screenshot) {
+                const link = document.createElement('a');
+                link.download = `navigrab_${elementId}_screenshot.png`;
+                link.href = screenshot;
+                link.click();
+                log(`📥 Downloaded screenshot for: ${elementId}`);
+            }
+        }
+        
+        function clearAllScreenshots() {
+            // Clear cache
+            screenshotCache = {};
+            
+            // Clear localStorage
+            const keys = Object.keys(localStorage).filter(k => k.startsWith('screenshot_'));
+            keys.forEach(key => localStorage.removeItem(key));
+            
+            // Hide display
+            document.getElementById('screenshot-display').style.display = 'none';
+            
+            log(`Cleared ${keys.length} screenshots from storage`);
+            alert(`Cleared ${keys.length} screenshots!`);
+        }
+        
+        function log(message) {
+            interactionCount++;
+            const log = document.getElementById('interaction-log');
+            const div = document.createElement('div');
+            div.textContent = `${interactionCount}. ${new Date().toLocaleTimeString()}: ${message}`;
+            log.appendChild(div);
+            log.scrollTop = log.scrollHeight;
+        }
+        
+        // Initialize
+        log('NaviGrab working screenshots page ready!');
+        log('Instructions: 1) Click "Capture All Screenshots" 2) Hover over elements to see screenshots in tooltips');
+    </script>
+</body>
+</html>

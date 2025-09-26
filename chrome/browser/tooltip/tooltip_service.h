@@ -14,6 +14,7 @@
 #include "base/values.h"
 #include "chrome/browser/tooltip/tooltip_prefs.h"
 #include "chrome/browser/tooltip/dark_mode_manager.h"
+#include "chrome/browser/tooltip/navigrab_integration.h"
 #include "content/public/browser/web_contents_observer.h"
 #include "ui/gfx/geometry/rect.h"
 #include "ui/gfx/image/image.h"
@@ -117,6 +118,15 @@ class TooltipService : public base::Singleton<TooltipService> {
   void SetEnabled(bool enabled);
   bool IsEnabled() const;
 
+  // NaviGrab automation integration
+  void ExecuteAutomationAction(const ElementInfo& element_info,
+                              const AutomationAction& action,
+                              base::OnceCallback<void(const AutomationResult&)> callback);
+  std::vector<AutomationAction> GetAvailableActions(const ElementInfo& element_info);
+  void SetAutomationEnabled(bool enabled);
+  bool IsAutomationEnabled() const;
+  NaviGrabIntegration* GetNaviGrabIntegration() { return navigrab_integration_.get(); }
+
  private:
   friend struct base::DefaultSingletonTraits<TooltipService>;
 
@@ -144,6 +154,7 @@ class TooltipService : public base::Singleton<TooltipService> {
   std::unique_ptr<AIIntegration> ai_integration_;
   std::unique_ptr<TooltipView> tooltip_view_;
   std::unique_ptr<TooltipPrefs> prefs_;
+  std::unique_ptr<NaviGrabIntegration> navigrab_integration_;
 
   // State
   bool initialized_;

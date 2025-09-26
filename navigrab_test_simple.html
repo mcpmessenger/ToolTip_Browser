@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NaviGrab Simple Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        button {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            margin: 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 2px solid #4ecdc4;
+            z-index: 1000;
+            max-width: 300px;
+            font-size: 14px;
+            display: none;
+        }
+        .test-results {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 NaviGrab Simple Tooltip Test</h1>
+        <p>This is a simple test to verify tooltips are working properly.</p>
+        
+        <div style="text-align: center;">
+            <button class="test-btn" 
+                    data-tooltip="test-button"
+                    onmouseenter="showTooltip(event, 'test-button', 'Test Button', 'This is a test button to verify tooltip functionality.')"
+                    onmouseleave="hideTooltip()">
+                🧪 Test Button
+            </button>
+            
+            <button class="test-btn" 
+                    data-tooltip="screenshot-btn"
+                    onmouseenter="showTooltip(event, 'screenshot-btn', 'Screenshot Button', 'This button tests screenshot capture functionality.')"
+                    onmouseleave="hideTooltip()">
+                📸 Screenshot Button
+            </button>
+        </div>
+        
+        <div class="test-results">
+            <h3>📊 Test Results</h3>
+            <div id="log" style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto;">
+                <div>Page loaded - hover over buttons to test tooltips!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltip Container -->
+    <div id="tooltip" class="tooltip"></div>
+
+    <script>
+        let logCount = 0;
+        
+        function showTooltip(event, elementId, title, description) {
+            const tooltip = document.getElementById('tooltip');
+            const rect = event.target.getBoundingClientRect();
+            
+            tooltip.innerHTML = `
+                <div style="font-weight: bold; color: #4ecdc4; margin-bottom: 8px;">${title}</div>
+                <div>${description}</div>
+                <div style="font-size: 12px; color: #ccc; margin-top: 8px;">
+                    Element ID: ${elementId}<br>
+                    Type: ${event.target.tagName.toLowerCase()}
+                </div>
+            `;
+            
+            // Position tooltip
+            const tooltipRect = tooltip.getBoundingClientRect();
+            let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+            let top = rect.top - tooltipRect.height - 10;
+            
+            if (left < 10) left = 10;
+            if (left + tooltipRect.width > window.innerWidth - 10) {
+                left = window.innerWidth - tooltipRect.width - 10;
+            }
+            if (top < 10) {
+                top = rect.bottom + 10;
+            }
+            
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+            tooltip.style.display = 'block';
+            
+            log(`Tooltip shown for: ${title}`);
+        }
+        
+        function hideTooltip() {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.style.display = 'none';
+        }
+        
+        function log(message) {
+            logCount++;
+            const logDiv = document.getElementById('log');
+            const div = document.createElement('div');
+            div.textContent = `${logCount}. ${new Date().toLocaleTimeString()}: ${message}`;
+            logDiv.appendChild(div);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        // Initialize
+        log('Simple tooltip test page ready');
+    </script>
+</body>
+</html>

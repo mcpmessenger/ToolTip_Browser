@@ -10,6 +10,7 @@
 #include "chrome/browser/tooltip/screenshot_capture.h"
 #include "chrome/browser/tooltip/ai_integration.h"
 #include "chrome/browser/tooltip/dark_mode_manager.h"
+#include "chrome/browser/tooltip/navigrab_integration.h"
 #include "chrome/browser/ui/views/tooltip/tooltip_view.h"
 #include "content/public/browser/web_contents.h"
 #include "ui/gfx/geometry/rect.h"
@@ -91,6 +92,10 @@ void TooltipService::InitializeComponents() {
   // Initialize tooltip view
   tooltip_view_ = std::make_unique<TooltipView>();
   tooltip_view_->Initialize();
+
+  // Initialize NaviGrab integration
+  navigrab_integration_ = CreateNaviGrabIntegration();
+  navigrab_integration_->Initialize();
 }
 
 void TooltipService::ShowTooltipForElement(
@@ -272,6 +277,46 @@ void TooltipService::NotifyError(const std::string& error_message) {
   for (auto& observer : observers_) {
     observer.OnError(error_message);
   }
+}
+
+// NaviGrab automation integration methods
+void TooltipService::ExecuteAutomationAction(
+    const ElementInfo& element_info,
+    const AutomationAction& action,
+    base::OnceCallback<void(const AutomationResult&)> callback) {
+  
+  if (!initialized_ || !navigrab_integration_) {
+    AutomationResult result;
+    result.success = false;
+    result.error_message = "NaviGrab integration not available";
+    std::move(callback).Run(result);
+    return;
+  }
+
+  navigrab_integration_->ExecuteAction(element_info, action, std::move(callback));
+}
+
+std::vector<AutomationAction> TooltipService::GetAvailableActions(
+    const ElementInfo& element_info) {
+  
+  if (!initialized_ || !navigrab_integration_) {
+    return std::vector<AutomationAction>();
+  }
+
+  return navigrab_integration_->GetSuggestedActions(element_info);
+}
+
+void TooltipService::SetAutomationEnabled(bool enabled) {
+  if (navigrab_integration_) {
+    navigrab_integration_->SetEnabled(enabled);
+  }
+}
+
+bool TooltipService::IsAutomationEnabled() const {
+  if (!navigrab_integration_) {
+    return false;
+  }
+  return navigrab_integration_->IsEnabled();
 }
 
 }  // namespace tooltip
