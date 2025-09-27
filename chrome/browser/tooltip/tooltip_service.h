@@ -9,15 +9,23 @@
 #include <string>
 #include <vector>
 
+#ifdef STANDALONE_TOOLTIP_BUILD
+#include "base/base_stubs.h"
+#else
 #include "base/memory/singleton.h"
 #include "base/observer_list.h"
 #include "base/values.h"
+#endif
 #include "chrome/browser/tooltip/tooltip_prefs.h"
 #include "chrome/browser/tooltip/dark_mode_manager.h"
 #include "chrome/browser/tooltip/navigrab_integration.h"
+#ifdef STANDALONE_TOOLTIP_BUILD
+#include "base/base_stubs.h"
+#else
 #include "content/public/browser/web_contents_observer.h"
 #include "ui/gfx/geometry/rect.h"
 #include "ui/gfx/image/image.h"
+#endif
 
 namespace content {
 class WebContents;
@@ -46,11 +54,12 @@ struct ElementInfo {
   std::string title;
   std::string role;
   std::string aria_label;
+  std::string type;
   gfx::Rect bounds;
   std::string computed_styles;
   
-  ElementInfo();
-  ~ElementInfo();
+  ElementInfo() = default;
+  ~ElementInfo() = default;
 };
 
 // AI response data
@@ -59,9 +68,10 @@ struct AIResponse {
   std::string description;
   std::string confidence;
   int64_t timestamp;
+  std::vector<std::string> suggested_actions;
   
-  AIResponse();
-  ~AIResponse();
+  AIResponse() : timestamp(0) {}
+  ~AIResponse() = default;
 };
 
 // Observer for tooltip events

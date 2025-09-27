@@ -42,15 +42,17 @@ int main() {
         auto result = scraper->ScrapePage("https://example.com", navigrab::ScrapingDepth::QUICK);
         std::cout << "✅ Scraping completed!" << std::endl;
         std::cout << "   - Elements found: " << result.elements.size() << std::endl;
-        std::cout << "   - Screenshots taken: " << result.screenshots_taken << std::endl;
-        std::cout << "   - Time taken: " << result.time_taken_ms << "ms" << std::endl;
+        std::cout << "   - Total elements: " << result.total_elements << std::endl;
+        std::cout << "   - Interactive elements: " << result.interactive_elements << std::endl;
+        std::cout << "   - Time taken: " << result.duration.count() << "ms" << std::endl;
         
         // Test 6: Test with our custom test page
         std::cout << "\n📋 Test 6: Testing with custom test page..." << std::endl;
         auto testResult = scraper->ScrapePage("file:///C:/ChromiumFresh/test_automation_page.html", navigrab::ScrapingDepth::STANDARD);
         std::cout << "✅ Test page scraping completed!" << std::endl;
         std::cout << "   - Elements found: " << testResult.elements.size() << std::endl;
-        std::cout << "   - Screenshots taken: " << testResult.screenshots_taken << std::endl;
+        std::cout << "   - Total elements: " << testResult.total_elements << std::endl;
+        std::cout << "   - Interactive elements: " << testResult.interactive_elements << std::endl;
         
         std::cout << "\n🎉 All tests passed! NaviGrab is working perfectly!" << std::endl;
         std::cout << "\n🚀 Ready for ChromiumFresh integration!" << std::endl;

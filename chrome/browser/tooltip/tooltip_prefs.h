@@ -7,10 +7,24 @@
 
 #include <string>
 
+#ifdef STANDALONE_TOOLTIP_BUILD
+#include "base/base_stubs.h"
+#else
 #include "base/macros.h"
 #include "components/prefs/pref_service.h"
+#endif
 
 class PrefRegistrySimple;
+
+#ifdef STANDALONE_TOOLTIP_BUILD
+namespace components {
+class PrefService;
+}
+#else
+namespace components {
+class PrefService;
+}
+#endif
 
 namespace tooltip {
 
@@ -64,7 +78,7 @@ class TooltipPrefs {
 
  private:
   // Get the pref service
-  PrefService* GetPrefService();
+  components::PrefService* GetPrefService();
 
   // Preference keys
   static const char kAutoCapture[];

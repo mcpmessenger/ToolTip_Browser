@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tooltip Integration Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+        }
+        
+        .dark-mode {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+        
+        .tooltip-controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .dark-mode .tooltip-controls {
+            background: rgba(26, 26, 26, 0.9);
+            color: #ffffff;
+        }
+        
+        .control-button {
+            margin: 5px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .dark-mode-toggle {
+            background: #4285f4;
+            color: white;
+        }
+        
+        .fresh-crawls {
+            background: #34a853;
+            color: white;
+        }
+        
+        .test-element {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .test-element:hover {
+            border-color: #4285f4;
+            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
+        }
+        
+        .dark-mode .test-element {
+            border-color: #555;
+            background-color: #333;
+        }
+        
+        .dark-mode .test-element:hover {
+            border-color: #4285f4;
+            background-color: #444;
+        }
+        
+        .tooltip-popup {
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1001;
+            max-width: 300px;
+            display: none;
+        }
+        
+        .dark-mode .tooltip-popup {
+            background: #2d2d2d;
+            border-color: #555;
+            color: #ffffff;
+        }
+        
+        .tooltip-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #4285f4;
+        }
+        
+        .tooltip-content {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .tooltip-actions {
+            margin-top: 10px;
+        }
+        
+        .tooltip-action-btn {
+            margin: 2px;
+            padding: 6px 12px;
+            font-size: 12px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .describe-btn {
+            background: #4285f4;
+            color: white;
+        }
+        
+        .capture-btn {
+            background: #34a853;
+            color: white;
+        }
+        
+        .close-btn {
+            background: #ea4335;
+            color: white;
+        }
+        
+        .status-message {
+            position: fixed;
+            top: 80px;
+            right: 10px;
+            background: #34a853;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 1002;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="tooltip-controls">
+        <h3>🔧 Tooltip Controls</h3>
+        <button class="control-button dark-mode-toggle" onclick="toggleDarkMode()">
+            🌙 Dark Mode
+        </button>
+        <button class="control-button fresh-crawls" onclick="triggerFreshCrawl()">
+            🔄 Fresh Crawl
+        </button>
+    </div>
+    
+    <div class="status-message" id="statusMessage"></div>
+    
+    <h1>🎯 Tooltip Integration Demo</h1>
+    <p>This page demonstrates the tooltip functionality with dark mode toggle and fresh crawls button.</p>
+    
+    <div class="test-element" data-element-type="button" data-element-info="Submit button for form submission">
+        <h3>📝 Submit Button</h3>
+        <p>Click this button to submit the form. This is a test element for tooltip functionality.</p>
+    </div>
+    
+    <div class="test-element" data-element-type="input" data-element-info="Text input field for user data">
+        <h3>⌨️ Text Input</h3>
+        <p>Enter text in this field. This is another test element for tooltip functionality.</p>
+    </div>
+    
+    <div class="test-element" data-element-type="link" data-element-info="Navigation link to other pages">
+        <h3>🔗 Navigation Link</h3>
+        <p>This is a link to another page. Hover to see tooltip information.</p>
+    </div>
+    
+    <div class="test-element" data-element-type="image" data-element-info="Product image with description">
+        <h3>🖼️ Product Image</h3>
+        <p>This is an image element. Hover to see tooltip information.</p>
+    </div>
+    
+    <div class="tooltip-popup" id="tooltipPopup">
+        <div class="tooltip-title" id="tooltipTitle">Element Information</div>
+        <div class="tooltip-content" id="tooltipContent">Hover over an element to see its information.</div>
+        <div class="tooltip-actions">
+            <button class="tooltip-action-btn describe-btn" onclick="describeElement()">🤖 Describe</button>
+            <button class="tooltip-action-btn capture-btn" onclick="captureElement()">📸 Capture</button>
+            <button class="tooltip-action-btn close-btn" onclick="closeTooltip()">❌ Close</button>
+        </div>
+    </div>
+    
+    <script>
+        let isDarkMode = false;
+        let currentElement = null;
+        
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            
+            const button = document.querySelector('.dark-mode-toggle');
+            button.textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
+            
+            showStatus('Dark mode ' + (isDarkMode ? 'enabled' : 'disabled'));
+            console.log('Dark mode toggled:', isDarkMode);
+        }
+        
+        function triggerFreshCrawl() {
+            console.log('Fresh crawl triggered');
+            showStatus('Fresh crawl started...');
+            
+            // Simulate fresh crawl
+            const elements = document.querySelectorAll('.test-element');
+            elements.forEach((element, index) => {
+                setTimeout(() => {
+                    element.style.borderColor = '#34a853';
+                    element.style.boxShadow = '0 0 10px rgba(52, 168, 83, 0.5)';
+                    setTimeout(() => {
+                        element.style.borderColor = '';
+                        element.style.boxShadow = '';
+                    }, 500);
+                }, index * 200);
+            });
+            
+            setTimeout(() => {
+                showStatus('Fresh crawl completed! ' + elements.length + ' elements analyzed.');
+            }, elements.length * 200 + 1000);
+        }
+        
+        function showTooltip(element, x, y) {
+            const popup = document.getElementById('tooltipPopup');
+            const title = document.getElementById('tooltipTitle');
+            const content = document.getElementById('tooltipContent');
+            
+            const elementType = element.getAttribute('data-element-type') || 'unknown';
+            const elementInfo = element.getAttribute('data-element-info') || 'No information available';
+            
+            title.textContent = elementType.charAt(0).toUpperCase() + elementType.slice(1) + ' Element';
+            content.textContent = elementInfo;
+            
+            popup.style.left = x + 'px';
+            popup.style.top = y + 'px';
+            popup.style.display = 'block';
+            
+            currentElement = element;
+        }
+        
+        function hideTooltip() {
+            const popup = document.getElementById('tooltipPopup');
+            popup.style.display = 'none';
+            currentElement = null;
+        }
+        
+        function describeElement() {
+            if (currentElement) {
+                const elementType = currentElement.getAttribute('data-element-type');
+                const description = generateAIDescription(elementType);
+                showStatus('AI Description: ' + description);
+            }
+        }
+        
+        function captureElement() {
+            if (currentElement) {
+                showStatus('Element captured! Screenshot saved.');
+            }
+        }
+        
+        function closeTooltip() {
+            hideTooltip();
+        }
+        
+        function generateAIDescription(elementType) {
+            const descriptions = {
+                'button': 'This is an interactive button element that users can click to perform actions. It appears to be a submit button for a form.',
+                'input': 'This is a text input field where users can enter information. It\'s commonly used in forms for data collection.',
+                'link': 'This is a hyperlink element that navigates to another page or section. It\'s part of the site\'s navigation structure.',
+                'image': 'This is an image element displaying visual content. It may be a product image, illustration, or decorative element.'
+            };
+            
+            return descriptions[elementType] || 'This is a web element that users can interact with.';
+        }
+        
+        function showStatus(message) {
+            const status = document.getElementById('statusMessage');
+            status.textContent = message;
+            status.style.display = 'block';
+            
+            setTimeout(() => {
+                status.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Add event listeners for tooltip functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.test-element');
+            
+            elements.forEach(element => {
+                element.addEventListener('mouseenter', function(e) {
+                    const rect = element.getBoundingClientRect();
+                    const x = rect.left + rect.width / 2;
+                    const y = rect.top - 10;
+                    showTooltip(element, x, y);
+                });
+                
+                element.addEventListener('mouseleave', function() {
+                    hideTooltip();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

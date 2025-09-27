@@ -2,16 +2,16 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/tooltip/tooltip_service.h"
+#include "tooltip_service.h"
 
 #include "base/logging.h"
 #include "base/threading/thread_task_runner_handle.h"
-#include "chrome/browser/tooltip/element_detector.h"
-#include "chrome/browser/tooltip/screenshot_capture.h"
-#include "chrome/browser/tooltip/ai_integration.h"
-#include "chrome/browser/tooltip/dark_mode_manager.h"
-#include "chrome/browser/tooltip/navigrab_integration.h"
-#include "chrome/browser/ui/views/tooltip/tooltip_view.h"
+#include "element_detector.h"
+#include "screenshot_capture.h"
+#include "ai_integration.h"
+#include "dark_mode_manager.h"
+#include "navigrab_integration.h"
+#include "tooltip_view.h"
 #include "content/public/browser/web_contents.h"
 #include "ui/gfx/geometry/rect.h"
 #include "ui/gfx/geometry/size.h"
